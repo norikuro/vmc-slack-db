@@ -25,14 +25,14 @@ def get_cred_collection(url):
 def _read_event_db(url, user_id, minutes=None):
     event_col =get_event_collection(url)
     
-    past = (
-        datetime.datetime.now() - datetime.timedelta(minutes=minutes)
-    ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-    
     if minutes is None:
         data = event_col.find_one({"_id": user_id})
     else:
+        past = (
+            datetime.datetime.now() - datetime.timedelta(minutes=minutes)
+        ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
         data = event_col.find_one({"start_time": {"$gt": past}, "_id": user_id})
+        
     return data
 
 def read_event_db(event):
