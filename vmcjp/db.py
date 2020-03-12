@@ -72,4 +72,4 @@ def delete_cred_db(url, user_id):
     delete_cred_db(event.get("url"), event.get("user_id"))
     
 def lambda_handler(event, context):
-    return eval(cmd)(event)
+    return eval(event.get("db_command"))(event)
