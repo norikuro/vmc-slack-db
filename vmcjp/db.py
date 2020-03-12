@@ -74,5 +74,6 @@ def delete_cred_db(url, user_id):
 def lambda_handler(event, context):
     if event.get("user_id") is None:
         return
+    elif event.get("db_url") is None:
     else:
         return eval(event.get("db_command"))(event)
