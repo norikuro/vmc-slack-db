@@ -4,39 +4,36 @@ import json
 
 from vmcjp.utils import constant
 
-class DocmentDb(object):
-    def __init__(self, url): 
-        self.client = pymongo.MongoClient(url)
-        self.event_db = self.client[constant.USER_DB]
-        self.event_col = self.event_db[constant.USER_COLLECTION]
-        self.cred_db = self.client[constant.CRED_DB]
-        self.cred_col = self.cred_db[constant.CRED_COLLECTION]
-    
-    def get_client(self):
-      return self.client
+def get_client(url):
+    return pymongo.MongoClient(url)
 
-    def get_event_db(self):
-        return self.event_db
-    
-    def get_cred_db(self):
-        return self.cred_db
+def get_event_db(url):
+    return get_client(url)[constant.USER_DB]
 
-    def get_event_collection(self):
-        return self.event_col
-    
-    def get_cred_collection(self):
-        return self.cred_col
+def get_cred_db(url):
+    return get_client(url)[constant.CRED_DB]
 
-    def read_event_db(self, user_id, minutes=None):
-        past = (
-          datetime.datetime.now() - datetime.timedelta(minutes=minutes)
-        ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-        
-        if minutes is None:
-            data = self.event_col.find_one({"_id": user_id})
-        else:
-            data = self.event_col.find_one({"start_time": {"$gt": past}, "_id": user_id})
-        return data
+def get_event_collection(url):
+    return get_event_db(url)[constant.USER_COLLECTION]
+
+def get_cred_collection(self):
+    return get_cred_db(url)[constant.CRED_COLLECTION]
+
+def read_event_db(user_id, minutes=None):
+    event_col =get_event_collection(url)
+    
+    past = (
+        datetime.datetime.now() - datetime.timedelta(minutes=minutes)
+    ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    
+    if minutes is None:
+        data = event_col.find_one({"_id": user_id})
+    else:
+        data = event_col.find_one({"start_time": {"$gt": past}, "_id": user_id})
+    return data
+
+def read_event_db(event):
+    read_event_db(event.get(user_id), event.get("minutes"))
 
     def read_cred_db(self, user_id):
         data = self.cred_col.find_one({"_id": user_id})
