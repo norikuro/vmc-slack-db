@@ -1,11 +1,11 @@
 import pymongo
 import datetime
-import logging
+#import logging
 
 from vmcjp.utils import constant
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+#logger = logging.getLogger()
+#logger.setLevel(logging.INFO)
 
 def get_client(url):
     return pymongo.MongoClient(url)
