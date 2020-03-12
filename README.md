@@ -1,1 +1,1 @@
-# vmc-slack-db
+# vmcjp-slack-db
