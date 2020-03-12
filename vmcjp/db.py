@@ -39,7 +39,7 @@ def _read_cred_db(url, user_id):
     return cred_col.find_one({"_id": user_id})
 
 def read_cred_db(event):
-    return _read_cred_db(event.get("url"), event.get("user_id"))
+    return _read_cred_db(event.get("db_url"), event.get("user_id"))
 
 def _write_event_db(url, user_id, data):
     event_col = get_event_collection(url)
@@ -48,28 +48,28 @@ def _write_event_db(url, user_id, data):
     event_col.update({"_id": user_id}, {"$set": data}, upsert=True)
 
 def write_event_db(event):
-    _write_event_db(event.get("url"), event.get("user_id"), event.get("data"))
+    _write_event_db(event.get("db_url"), event.get("user_id"), event.get("data"))
 
 def _write_cred_db(url, user_id, data):
     cred_col = get_cred_collection(url)
     cred_col.update({"_id": user_id}, {"$set": data}, upsert=True)
 
 def write_cred_db(event):
-    _write_cred_db(event.get("url"), event.get("user_id"), event.get("data"))
+    _write_cred_db(event.get("db_url"), event.get("user_id"), event.get("data"))
 
 def _delete_event_db(url, user_id):
     event_col = get_event_collection(url)
     event_col.remove({"_id": user_id})
 
 def delete_event_db(event):
-    _delete_event_db(event.get("url"), event.get("user_id"))
+    _delete_event_db(event.get("db_url"), event.get("user_id"))
 
 def _delete_cred_db(url, user_id):
     cred_col = get_cred_collection(url)
     cred_col.remove({"_id": user_id})
 
 def delete_cred_db(url, user_id):
-    _delete_cred_db(event.get("url"), event.get("user_id"))
+    _delete_cred_db(event.get("db_url"), event.get("user_id"))
     
 def lambda_handler(event, context):
     return eval(event.get("db_command"))(event)
