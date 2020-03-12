@@ -43,7 +43,7 @@ def _read_event_db(url, user_id, minutes=None):
     return data
 
 def read_event_db(event):
-    return _read_event_db(event.get("user_id"), event.get("minutes"))
+    return _read_event_db(event.get("db_url"), event.get("user_id"), event.get("minutes"))
     
 def _read_cred_db(url, user_id):
     cred_col = get_cred_collection(url)
@@ -83,5 +83,5 @@ def delete_cred_db(url, user_id):
     _delete_cred_db(event.get("db_url"), event.get("user_id"))
     
 def lambda_handler(event, context):
-#    logging.info("user_id: {}".format(event.get("user_id")))
+    logging.info("user_id: {}".format(event.get("user_id")))
     return eval(event.get("db_command"))(event)
