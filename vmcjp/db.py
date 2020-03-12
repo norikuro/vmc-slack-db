@@ -102,4 +102,4 @@ class DocmentDb(object):
     
 def lambda_handler(event, context):
     db = DocmentDb(event.get("db_url"))
-    eval(cmd)(event, db)
+    return eval(cmd)(event, db)
