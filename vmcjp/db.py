@@ -2,6 +2,7 @@ import pymongo
 import datetime
 import json
 
+from vmcjp.utils import dbutils
 from vmcjp.utils import constant
 
 class DocmentDb(object):
@@ -99,3 +100,6 @@ class DocmentDb(object):
             "connected_account_id": a_id,
             "link_aws": "True"
         }
+    
+def lambda_handler(event, context):
+    db = dbutils.DocmentDb(event.get("db_url"))
