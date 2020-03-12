@@ -28,7 +28,7 @@ def _read_event_db(url, user_id, minutes=None):
 
     logging.info("!!!find_one")
     if minutes is None:
-        logging.info("!!!find_one, minutes is None")
+        logging.info("!!!find_one, minutes is None, {}".format(user_id))
         data = event_col.find_one({"_id": user_id})
     else:
         logging.info("!!!find_one, calcurating datetime")
