@@ -1,6 +1,5 @@
 import pymongo
 import datetime
-import json
 
 from vmcjp.utils import constant
 
