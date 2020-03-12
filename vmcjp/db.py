@@ -1,11 +1,11 @@
 import pymongo
 import datetime
-#import logging
+import logging
 
 from vmcjp.utils import constant
 
-#logger = logging.getLogger()
-#logger.setLevel(logging.INFO)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def get_client(url):
     return pymongo.MongoClient(url)
@@ -23,15 +23,22 @@ def get_cred_collection(url):
     return get_cred_db(url)[constant.CRED_COLLECTION]
 
 def _read_event_db(url, user_id, minutes=None):
+    logging.info("!!!next is get_event_collection")
     event_col =get_event_collection(url)
-    
+
+    logging.info("!!!find_one")
     if minutes is None:
+        logging.info("!!!find_one, minutes is None")
         data = event_col.find_one({"_id": user_id})
     else:
+        logging.info("!!!find_one, calcurating datetime")
         past = (
             datetime.datetime.now() - datetime.timedelta(minutes=minutes)
         ).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+        
+        logging.info("!!!find_one with minutes")
         data = event_col.find_one({"start_time": {"$gt": past}, "_id": user_id})
+        logging.info("!!!find_one end")
         
     return data
 
