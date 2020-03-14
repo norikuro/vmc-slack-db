@@ -1,11 +1,11 @@
 import pymongo
 import datetime
-#import logging
+import logging
 
 from vmcjp.utils import constant
 
-#logger = logging.getLogger()
-#logger.setLevel(logging.INFO)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def get_client(url):
     return pymongo.MongoClient(url)
@@ -58,6 +58,7 @@ def write_event_db(event):
     _write_event_db(event.get("db_url"), event.get("user_id"), event.get("data"))
 
 def _write_cred_db(url, user_id, data):
+    logging.info("_write_cred_db: {}, {}, {}".format(url, user_id, data))
 #def write_cred_db(url, user_id, data):
     cred_col = get_cred_collection(url)
     cred_col.update({"_id": user_id}, {"$set": data}, upsert=True)
@@ -82,5 +83,5 @@ def delete_cred_db(event):
     _delete_cred_db(event.get("db_url"), event.get("user_id"))
     
 def lambda_handler(event, context):
-#    logging.info("user_id: {}".format(event.get("user_id")))
+    logging.info(event)
     return eval(event.get("db_command"))(event)
