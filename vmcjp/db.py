@@ -1,7 +1,11 @@
 import pymongo
 import datetime
+import logging
 
 from vmcjp.utils import constant
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 def lambda_handler(event, context):
     return eval(event.get("db_command"))(event)
@@ -73,6 +77,7 @@ def delete_event_db(event):
     _delete_event_db(event.get("db_url"), event.get("user_id"))
 
 def _delete_cred_db(url, user_id):
+    logging.info("!!!here is _delete_cred_db: {}, {}".format(url, user_id))
 #def delete_cred_db(url, user_id):
     cred_col = get_cred_collection(url)
     cred_col.remove({"_id": user_id})
