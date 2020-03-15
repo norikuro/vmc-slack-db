@@ -3,6 +3,9 @@ import datetime
 
 from vmcjp.utils import constant
 
+def lambda_handler(event, context):
+    return eval(event.get("db_command"))(event)
+
 def get_client(url):
     return pymongo.MongoClient(url)
 
@@ -76,6 +79,3 @@ def _delete_cred_db(url, user_id):
 
 def delete_cred_db(event):
     _delete_cred_db(event.get("db_url"), event.get("user_id"))
-    
-def lambda_handler(event, context):
-    return eval(event.get("db_command"))(event)
